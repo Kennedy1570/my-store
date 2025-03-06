@@ -1,6 +1,9 @@
+import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
+import { AppContext } from "../AppContext"
 
 export default function Navbar() {
+    const {setUserCredentials} = useContext(AppContext)
     return (
         <nav className="navbar navbar-expand-lg bg-white border-bottom box-shadow">
             <div className="container">
@@ -26,8 +29,16 @@ export default function Navbar() {
                             <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
                             <li><Link className="dropdown-item" to="/admin/products">Products</Link></li>
                             <li><hr className="dropdown-divider" /></li>
-                            <li><Link className="dropdown-item" to="/logout">Logout</Link></li>
+                            <li><Link className="dropdown-item" onClick={() => setUserCredentials(null)}to="/">Logout</Link></li>
                         </ul>
+                    </li>
+                </ul>
+                <ul className="navbar-nav">
+                    <li className="nav-item">
+                        <Link className="btn btn-outline-primary me-2" to="/auth/register" role="button">Register</Link>
+                    </li>
+                    <li className="nav-item">
+                        <Link className="btn btn-primary" to="/auth/login" role="button">Login</Link>
                     </li>
                 </ul>
                 </div>
