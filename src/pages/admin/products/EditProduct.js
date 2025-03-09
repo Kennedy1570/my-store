@@ -1,5 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "../../../AppContext";
 
 
 export default function EditProduct() {
@@ -7,7 +8,7 @@ export default function EditProduct() {
     const [initialData, setInitialData] = useState()
     const [validationErrors, setValidationErrors] = useState({})
 
-    //const { userCredentials, setUserCredentials } = useContext(AppContext)
+    const { userCredentials, setUserCredentials } = useContext(AppContext)
 
     const navigate = useNavigate()
 
@@ -46,6 +47,9 @@ export default function EditProduct() {
         try {
             const response = await fetch("http://localhost:4000/products" + params.id, {
                 method: "PATCH",
+                headers: {
+                    "Authorization": "Bearer " + userCredentials.accessToken
+                },
                 body: formData
             })
 
@@ -58,11 +62,10 @@ export default function EditProduct() {
             else if (response.status === 400) {
                 setValidationErrors(data)
             }
-            /*
             else if (response.status === 401) {
                 // disconnect the user
                 setUserCredentials(null)
-            }*/
+            }
             else {
                 alert("Unable to create the product!")
             }

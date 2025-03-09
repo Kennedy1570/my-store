@@ -94,7 +94,7 @@ export default function Home() {
                             <p>Find a large selection of newest electronic devices from most popular brands and with affordable prices.</p>
                         </div>
                         <div className="col-md-6 text-center">
-                            <img src="/images/hero.png" className="img-fluid" alt="hero" />
+                            <img src={process.env.PUBLIC_URL + "/images/hero.png"} className="img-fluid" alt="hero" />
                         </div>
                     </div>
                 </div>

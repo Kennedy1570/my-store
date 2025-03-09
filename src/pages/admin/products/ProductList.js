@@ -1,8 +1,11 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState, useContext, use } from "react";
+import { AppContext } from "../../../AppContext";
 
 export default function ProductList() {
     const [products, productsInfo] = useState([])
+    const { userCredentials, setUserCredentials } = useContext(AppContext)
+    const navigate = useNavigate()
 
     // pagination functionality
     const [currentPage, setCurrentPage] = useState(1)
@@ -42,17 +45,19 @@ export default function ProductList() {
 
     function deleteProduct(id) {
         fetch("http://localhost:4000/products/" + id, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + userCredentials.accessToken
+            }
         })
             .then(response => {
-                /*
                 if (response.status === 401) {
                     // unauthorized response
                     setUserCredentials(null)
                     // redirect the user
                     navigate("/auth/login")
                     return
-                }*/
+                }
                 if (!response.ok) {
                     throw new Error()
                 }

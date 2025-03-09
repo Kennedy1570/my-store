@@ -3,11 +3,11 @@ import { Link } from "react-router-dom"
 import { AppContext } from "../AppContext"
 
 export default function Navbar() {
-    const {setUserCredentials} = useContext(AppContext)
+    const {userCredentials, setUserCredentials} = useContext(AppContext)
     return (
         <nav className="navbar navbar-expand-lg bg-white border-bottom box-shadow">
             <div className="container">
-                <Link className="navbar-brand" to="/"><img src="/icon.png" alt="shopping cart" width="30" className="me-2"/>My Store</Link>
+                <Link className="navbar-brand" to="/"><img src={process.env.PUBLIC_URL + "/icon.png"} alt="shopping cart" width="30" className="me-2"/>My Store</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
                 </button>
@@ -20,27 +20,48 @@ export default function Navbar() {
                     <Link className="nav-link text-dark" to="/contact">Contact</Link>
                     </li>
                 </ul>
-                <ul className="navbar-nav">
-                    <li className="nav-item dropdown">
-                        <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Admin
-                        </a>
-                        <ul className="dropdown-menu">
-                            <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
-                            <li><Link className="dropdown-item" to="/admin/products">Products</Link></li>
-                            <li><hr className="dropdown-divider" /></li>
-                            <li><Link className="dropdown-item" onClick={() => setUserCredentials(null)}to="/">Logout</Link></li>
+                {
+                    userCredentials && userCredentials.user.role === "admin" &&
+                    <ul className="navbar-nav">
+                        <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                <li><Link className="dropdown-item" to="/admin/products">Products</Link></li>
+                                <li><hr className="dropdown-divider" /></li>
+                                <li><Link className="dropdown-item" onClick={() => setUserCredentials(null)}to="/">Logout</Link></li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
+                {
+                        userCredentials && userCredentials.user.role !== "admin" &&
+                        <ul className="navbar-nav">
+                            <li className="nav-item dropdown">
+                                <a className="nav-link dropdown-toggle text-dark" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Client
+                                </a>
+                                <ul className="dropdown-menu">
+                                    <li><Link className="dropdown-item" to="/profile">Profile</Link></li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><Link className="dropdown-item" onClick={() => setUserCredentials(null)} to="/">Logout</Link></li>
+                                </ul>
+                            </li>
                         </ul>
-                    </li>
-                </ul>
-                <ul className="navbar-nav">
-                    <li className="nav-item">
-                        <Link className="btn btn-outline-primary me-2" to="/auth/register" role="button">Register</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="btn btn-primary" to="/auth/login" role="button">Login</Link>
-                    </li>
-                </ul>
+                }
+                {
+                    !userCredentials &&
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <Link className="btn btn-outline-primary me-2" to="/auth/register" role="button">Register</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="btn btn-primary" to="/auth/login" role="button">Login</Link>
+                        </li>
+                    </ul>
+                }
                 </div>
             </div>
         </nav>
@@ -50,7 +71,7 @@ export default function Navbar() {
 export function Footer() {
     return(
         <div className="text-center p-4 border-top">
-            <img src="/icon.png" alt="shopping cart" width="30" className="me-2"/> My Store
+            <img src= {process.env.PUBLIC_URL + "/icon.png"} alt="shopping cart" width="30" className="me-2"/> My Store
         </div>
     )
 }

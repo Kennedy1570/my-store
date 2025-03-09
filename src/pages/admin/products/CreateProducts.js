@@ -1,11 +1,11 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { AppContext } from "../../../AppContext";
 
 export default function CreateProduct() {
     const [validationErrors, setValidationErrors] = useState({})
 
-    //const { userCredentials, setUserCredentials } = useContext(AppContext)
+    const { userCredentials, setUserCredentials } = useContext(AppContext)
 
     const navigate = useNavigate()
 
@@ -25,6 +25,7 @@ export default function CreateProduct() {
         try {
             const response = await fetch("http://localhost:4000/products", {
                 method: "POST",
+                header: { "Authorization" : " Bearer " + userCredentials.accessToken},
                 body: formData
             })
 
@@ -37,11 +38,11 @@ export default function CreateProduct() {
             else if (response.status === 400) {
                 setValidationErrors(data)
             }
-            /*
+            
             else if (response.status === 401) {
                 // disconnect the user
                 setUserCredentials(null)
-            }*/
+            }
             else {
                 alert("Unable to create the product!")
             }

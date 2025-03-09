@@ -36,7 +36,7 @@ export default function ProductDetails() {
                 </div>
                 <div className="col-md-8">
                     <h3 className="mb-3">{product.name}</h3>
-                    <h3 className="mb-3">{product.price}$</h3>
+                    <h3 className="mb-3">${product.price}</h3>
                     <button type="button" className="btn btn-warning btn-sm">
                         Add to Cart <i className="bi bi-cart4"></i>
                     </button>
